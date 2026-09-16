@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#064e3b" />
+      <stop offset="100%" stop-color="#022c22" />
+    </linearGradient>
+    <linearGradient id="primary" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="12" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="128" fill="url(#bg)" stroke="#10b981" stroke-width="8" />
+  <g transform="translate(64, 64) scale(0.75)" filter="url(#glow)">
+    <!-- Globe Grid Lines / Geographic Map Grid -->
+    <circle cx="256" cy="256" r="220" fill="none" stroke="#10b981" stroke-width="8" opacity="0.3" />
+    <ellipse cx="256" cy="256" rx="220" ry="90" fill="none" stroke="#10b981" stroke-width="6" opacity="0.25" />
+    <line x1="36" y1="256" x2="476" y2="256" stroke="#10b981" stroke-width="6" opacity="0.25" />
+    <line x1="256" y1="36" x2="256" y2="476" stroke="#10b981" stroke-width="6" opacity="0.25" />
+    <!-- Cap Icon -->
+    <path d="M256 96L40 200l216 104 216-104L256 96z" fill="url(#primary)" />
+    <path d="M90 270v100c0 55 74 100 166 100s166-45 166-100V270l-166 80-166-80z" fill="#10b981" opacity="0.85" />
+    <path d="M440 230v130c0 10-10 18-20 18s-20-8-20-18V240l40-10z" fill="#34d399" />
+    <!-- Pin Marker -->
+    <circle cx="256" cy="240" r="20" fill="#ffffff" />
+  </g>
+  <text x="256" y="450" text-anchor="middle" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="44" letter-spacing="4">PORTAL SIG</text>
+</svg>

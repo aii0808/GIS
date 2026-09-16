@@ -1,0 +1,21 @@
+{
+  "name": "Portal Praktikum SIG - Lab Sistem Informasi Geografis",
+  "short_name": "Portal SIG",
+  "description": "Portal Penilaian Praktikum Laboratorium Sistem Informasi Geografis (QGIS/ArcGIS, Analisis Spasial & Kartografi BIG)",
+  "start_url": "/",
+  "id": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#070a12",
+  "theme_color": "#10b981",
+  "categories": ["education", "productivity"],
+  "icons": [
+    {
+      "src": "/pwa-icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

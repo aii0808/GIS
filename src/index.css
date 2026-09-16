@@ -1,0 +1,253 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light dark;
+  }
+  
+  html.dark body {
+    background-color: #070a12;
+    color: #f1f5f9;
+  }
+
+  html:not(.dark) body {
+    background-color: #f8fafc;
+    color: #0f172a;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    overflow-x: hidden;
+  }
+}
+
+/* ========================================================================= */
+/* CYBER TECH & GAMING HUD DESIGN SYSTEM (ZERO NEON BLUE, HIGH CONTRAST)     */
+/* ========================================================================= */
+
+/* Clear Panel (Glass & Obsidian Panel) */
+.clear-panel {
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+html.dark .clear-panel {
+  background-color: rgba(13, 19, 31, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-color: #1e293b;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+}
+
+html:not(.dark) .clear-panel {
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-color: #e2e8f0;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+}
+
+/* Clear Card (Card UI with cyber border highlights) */
+.clear-card {
+  border-radius: 1rem;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.15s ease;
+}
+
+html.dark .clear-card {
+  background-color: #0d1422;
+  border: 1px solid #1c283f;
+  box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.4);
+}
+
+html.dark .clear-card:hover {
+  border-color: #059669;
+  background-color: #111a2d;
+  box-shadow: 0 6px 24px -4px rgba(16, 185, 129, 0.15);
+}
+
+html:not(.dark) .clear-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.04);
+}
+
+html:not(.dark) .clear-card:hover {
+  border-color: #10b981;
+  background-color: #ffffff;
+  box-shadow: 0 6px 18px -3px rgba(16, 185, 129, 0.12);
+}
+
+/* Clear Input Field */
+.clear-input {
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+html.dark .clear-input {
+  background-color: #090e18;
+  border: 1px solid #24334f;
+  color: #f8fafc;
+}
+
+html.dark .clear-input:focus {
+  outline: none;
+  border-color: #10b981;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
+}
+
+html:not(.dark) .clear-input {
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #0f172a;
+}
+
+html:not(.dark) .clear-input:focus {
+  outline: none;
+  border-color: #059669;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+}
+
+/* Game HUD Snackbar & Tech Accents */
+.game-hud-box {
+  clip-path: polygon(
+    0 8px,
+    8px 0,
+    calc(100% - 8px) 0,
+    100% 8px,
+    100% calc(100% - 8px),
+    calc(100% - 8px) 100%,
+    8px 100%,
+    0 calc(100% - 8px)
+  );
+}
+
+@keyframes hud-scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(1000%); }
+}
+
+.animate-scanline {
+  animation: hud-scanline 4s linear infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.8; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Clean Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+html.dark ::-webkit-scrollbar-track {
+  background-color: #070a12;
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+  background-color: #1c283f;
+  border-radius: 9999px;
+}
+
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background-color: #10b981;
+}
+
+html:not(.dark) ::-webkit-scrollbar-track {
+  background-color: #f1f5f9;
+}
+
+html:not(.dark) ::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 9999px;
+}
+
+html:not(.dark) ::-webkit-scrollbar-thumb:hover {
+  background-color: #059669;
+}
+
+/* ========================================================================= */
+/* SISTEM 3 TEMA VISUAL: TECH, SIBER, MODERN 3D                              */
+/* ========================================================================= */
+
+/* 1. TEMA TECH: MATRIX TACTICAL (CYBER EMERALD) */
+html.theme-tech.dark body {
+  background-color: #060a10;
+}
+
+html.theme-tech .theme-accent-bg {
+  background-color: #10b981;
+}
+
+html.theme-tech .clear-card {
+  border-color: rgba(16, 185, 129, 0.2);
+}
+
+html.theme-tech .clear-card:hover {
+  border-color: #10b981;
+  box-shadow: 0 0 20px -3px rgba(16, 185, 129, 0.25);
+}
+
+/* 2. TEMA SIBER: CYBERPUNK TITANIUM GOLD / AMBER */
+html.theme-siber.dark body {
+  background-color: #0b0d12;
+}
+
+html.theme-siber .theme-accent-bg {
+  background-color: #f59e0b;
+}
+
+html.theme-siber .clear-card {
+  border-color: rgba(245, 158, 11, 0.25);
+  box-shadow: 0 4px 18px -2px rgba(0, 0, 0, 0.5);
+}
+
+html.theme-siber .clear-card:hover {
+  border-color: #f59e0b;
+  box-shadow: 0 0 22px -2px rgba(245, 158, 11, 0.3);
+  background-color: #141720;
+}
+
+html.theme-siber html.dark ::-webkit-scrollbar-thumb:hover {
+  background-color: #f59e0b;
+}
+
+/* 3. TEMA MODERN 3D: ELEVATED GLASS DEPTH & HOLOGRAM VIOLET */
+html.theme-modern-3d.dark body {
+  background-color: #080714;
+}
+
+html.theme-modern-3d .theme-accent-bg {
+  background-color: #8b5cf6;
+}
+
+html.theme-modern-3d .clear-card {
+  border-color: rgba(139, 92, 246, 0.25);
+  box-shadow: 0 16px 36px -4px rgba(0, 0, 0, 0.7), 0 2px 8px 0 rgba(139, 92, 246, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transform: translateY(0);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease, border-color 0.2s ease;
+}
+
+html.theme-modern-3d .clear-card:hover {
+  border-color: #a855f7;
+  transform: translateY(-5px) scale(1.01);
+  box-shadow: 0 22px 48px -6px rgba(0, 0, 0, 0.8), 0 0 24px -2px rgba(139, 92, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  background-color: #110e28;
+}
+
+html.theme-modern-3d .clear-panel {
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  border-color: rgba(139, 92, 246, 0.25);
+}
+
+html.theme-modern-3d html.dark ::-webkit-scrollbar-thumb:hover {
+  background-color: #8b5cf6;
+}
+
+
