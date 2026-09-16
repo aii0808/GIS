@@ -480,7 +480,7 @@ export function setStudents(studentsList) {
 /**
  * CREATE: Menambahkan mahasiswa baru ke sistem & sinkron ke Supabase Cloud
  */
-export async function addStudent({ npm, name, classGroup = 'SIG-A' }) {
+export function addStudent({ npm, name, classGroup = 'SIG-A' }) {
   const cleanNpm = String(npm || '').trim();
   const cleanName = String(name || '').trim();
   const cleanClass = String(classGroup || 'SIG-A').trim();
@@ -508,25 +508,24 @@ export async function addStudent({ npm, name, classGroup = 'SIG-A' }) {
   const updated = [newStudent, ...currentStudents];
   setStudents(updated);
 
-  let cloudRes = null;
+  // Kirim ke Supabase Cloud secara non-blocking di latar belakang
   if (isSupabaseConfigured()) {
-    cloudRes = await saveStudentToSupabase(newStudent);
+    saveStudentToSupabase(newStudent).catch((err) => {
+      console.warn('Gagal sinkronisasi praktikan ke Supabase:', err);
+    });
   }
 
   return { 
     success: true, 
     student: newStudent,
-    tableMissing: cloudRes?.tableMissing || false,
-    message: cloudRes?.tableMissing 
-      ? 'Praktikan disimpan di memori lokal, namun tabel "sig_students" belum dibuat di Supabase SQL Editor!' 
-      : 'Praktikan berhasil ditambahkan!' 
+    message: 'Praktikan berhasil ditambahkan!' 
   };
 }
 
 /**
  * UPDATE: Mengubah data mahasiswa yang sudah ada & sinkron ke Supabase Cloud
  */
-export async function updateStudent(oldNpm, { npm, name, classGroup }) {
+export function updateStudent(oldNpm, { npm, name, classGroup }) {
   const cleanOldNpm = String(oldNpm).trim();
   const cleanNewNpm = String(npm || '').trim();
   const cleanName = String(name || '').trim();
@@ -588,7 +587,7 @@ export async function updateStudent(oldNpm, { npm, name, classGroup }) {
 /**
  * DELETE: Menghapus data mahasiswa dan riwayat nilainya (Cascade)
  */
-export async function deleteStudent(npm) {
+export function deleteStudent(npm) {
   const cleanNpm = String(npm).trim();
   const currentStudents = getStudents();
   const filtered = currentStudents.filter((st) => st.npm !== cleanNpm);

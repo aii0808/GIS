@@ -339,7 +339,7 @@ export async function saveStudentToSupabase(student) {
       class_group: student.classGroup || 'SIG-A',
     };
 
-    const res = await fetch(`${cfg.url}/rest/v1/sig_students`, {
+    const res = await fetch(`${cfg.url}/rest/v1/sig_students?on_conflict=npm`, {
       method: 'POST',
       headers: getSupabaseHeaders(cfg.anonKey, {
         'Prefer': 'resolution=merge-duplicates',
@@ -431,7 +431,7 @@ export async function saveUserToSupabase(user) {
       role: user.role || 'dosen',
     };
 
-    const res = await fetch(`${cfg.url}/rest/v1/sig_users`, {
+    const res = await fetch(`${cfg.url}/rest/v1/sig_users?on_conflict=username`, {
       method: 'POST',
       headers: getSupabaseHeaders(cfg.anonKey, {
         'Prefer': 'resolution=merge-duplicates',
@@ -532,7 +532,7 @@ export async function saveScoreToSupabase(meetingId, studentNpm, sc) {
       updated_at: new Date().toISOString(),
     };
 
-    const res = await fetch(`${cfg.url}/rest/v1/sig_scores`, {
+    const res = await fetch(`${cfg.url}/rest/v1/sig_scores?on_conflict=meeting_id,student_npm`, {
       method: 'POST',
       headers: getSupabaseHeaders(cfg.anonKey, {
         'Prefer': 'resolution=merge-duplicates',
@@ -605,7 +605,7 @@ export async function syncLocalToSupabase(students, meetings, scores, users) {
         class_group: s.classGroup || 'SIG-A',
       }));
 
-      const resSt = await fetch(`${cfg.url}/rest/v1/sig_students`, {
+      const resSt = await fetch(`${cfg.url}/rest/v1/sig_students?on_conflict=npm`, {
         method: 'POST',
         headers,
         body: JSON.stringify(studentPayload),
@@ -630,7 +630,7 @@ export async function syncLocalToSupabase(students, meetings, scores, users) {
         description: m.desc || '',
       }));
 
-      await fetch(`${cfg.url}/rest/v1/sig_meetings`, {
+      await fetch(`${cfg.url}/rest/v1/sig_meetings?on_conflict=id`, {
         method: 'POST',
         headers,
         body: JSON.stringify(meetingPayload),
@@ -659,7 +659,7 @@ export async function syncLocalToSupabase(students, meetings, scores, users) {
       });
 
       if (scoreRows.length > 0) {
-        await fetch(`${cfg.url}/rest/v1/sig_scores`, {
+        await fetch(`${cfg.url}/rest/v1/sig_scores?on_conflict=meeting_id,student_npm`, {
           method: 'POST',
           headers,
           body: JSON.stringify(scoreRows),
@@ -676,7 +676,7 @@ export async function syncLocalToSupabase(students, meetings, scores, users) {
         role: u.role || 'dosen',
       }));
 
-      await fetch(`${cfg.url}/rest/v1/sig_users`, {
+      await fetch(`${cfg.url}/rest/v1/sig_users?on_conflict=username`, {
         method: 'POST',
         headers,
         body: JSON.stringify(userPayload),
@@ -694,3 +694,4 @@ export async function syncLocalToSupabase(students, meetings, scores, users) {
     };
   }
 }
+

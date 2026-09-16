@@ -66,13 +66,16 @@ export default function Students() {
   useEffect(() => {
     loadData();
 
-    // Jika cloud aktif, coba sinkronkan data praktikan dari Supabase
+    // Jika cloud aktif, sinkronkan data praktikan dari Supabase
     if (isSupabaseConfigured()) {
       fetchStudentsFromSupabase().then((cloudStudents) => {
         if (cloudStudents && Array.isArray(cloudStudents) && cloudStudents.length > 0) {
           setStudents(cloudStudents);
+          localStorage.setItem('portal_sig_students_data', JSON.stringify(cloudStudents));
         }
-      }).catch(() => {});
+      }).catch((err) => {
+        console.warn('Gagal memuat mahasiswa dari Supabase:', err);
+      });
     }
   }, []);
 
@@ -117,31 +120,36 @@ export default function Students() {
   };
 
   // Handler Submit Form Tambah / Edit
-  const handleSubmitForm = (e) => {
+  const handleSubmitForm = async (e) => {
     e.preventDefault();
 
-    if (modalMode === 'add') {
-      const result = addStudent(formData);
-      if (!result.success) {
-        playError();
-        toast.error(result.message, 'GAGAL MENAMBAHKAN');
-        return;
+    try {
+      if (modalMode === 'add') {
+        const result = await addStudent(formData);
+        if (!result || !result.success) {
+          playError();
+          toast.error(result?.message || 'Gagal menambahkan praktikan.', 'GAGAL MENAMBAHKAN');
+          return;
+        }
+        playSuccess();
+        toast.success(`Praktikan ${result.student.name} (${result.student.npm}) berhasil didaftarkan!`, 'PRAKTIKAN TERSIMPAN');
+      } else {
+        const result = await updateStudent(currentEditingNpm, formData);
+        if (!result || !result.success) {
+          playError();
+          toast.error(result?.message || 'Gagal mengubah data praktikan.', 'GAGAL MENGUBAH DATA');
+          return;
+        }
+        playSuccess();
+        toast.success(`Data praktikan ${result.student.name} berhasil diperbarui!`, 'DATA DIPERBARUI');
       }
-      playSuccess();
-      toast.success(`Praktikan ${result.student.name} (${result.student.npm}) berhasil didaftarkan!`, 'PRAKTIKAN TERSIMPAN');
-    } else {
-      const result = updateStudent(currentEditingNpm, formData);
-      if (!result.success) {
-        playError();
-        toast.error(result.message, 'GAGAL MENGUBAH DATA');
-        return;
-      }
-      playSuccess();
-      toast.success(`Data praktikan ${result.student.name} berhasil diperbarui!`, 'DATA DIPERBARUI');
-    }
 
-    setIsModalOpen(false);
-    loadData();
+      setIsModalOpen(false);
+      loadData();
+    } catch (err) {
+      playError();
+      toast.error(err.message || 'Terjadi kesalahan sistem.', 'ERROR');
+    }
   };
 
   // Handler Buka Konfirmasi Hapus
@@ -152,15 +160,20 @@ export default function Students() {
   };
 
   // Handler Eksekusi Hapus Mahasiswa
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async () => {
     if (!deleteTarget) return;
-    playDelete();
-    const result = deleteStudent(deleteTarget.npm);
-    if (result.success) {
-      toast.info(`Data mahasiswa ${deleteTarget.name} (${deleteTarget.npm}) telah dihapus.`, 'DATA DIHAPUS');
-    } else {
+    try {
+      playDelete();
+      const result = await deleteStudent(deleteTarget.npm);
+      if (result && result.success) {
+        toast.info(`Data mahasiswa ${deleteTarget.name} (${deleteTarget.npm}) telah dihapus.`, 'DATA DIHAPUS');
+      } else {
+        playError();
+        toast.error(result?.message || 'Gagal menghapus praktikan.', 'ERROR');
+      }
+    } catch (err) {
       playError();
-      toast.error('Gagal menghapus praktikan.', 'ERROR');
+      toast.error(err.message || 'Gagal menghapus praktikan.', 'ERROR');
     }
     setIsDeleteModalOpen(false);
     setDeleteTarget(null);
